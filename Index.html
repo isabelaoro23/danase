@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolveProcess - Sistema de Gestión de Notas</title>
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #FCFCFC;
+            --tertiary: #BCA75A;
+            --quaternary: #ABB9F0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        body {
+            background-color: var(--secondary);
+            color: var(--primary);
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: var(--secondary);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            color: var(--tertiary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--tertiary);
+        }
+        
+        main {
+            margin-top: 80px;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/api/placeholder/1200/600') center/cover;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--secondary);
+            padding: 0 2rem;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero h2 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--tertiary);
+            color: var(--primary);
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--quaternary);
+            transform: translateY(-3px);
+        }
+        
+        section {
+            padding: 5rem 2rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--tertiary);
+            margin: 0.5rem auto;
+        }
+        
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .features {
+            background-color: #f8f8f8;
+        }
+        
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: var(--secondary);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--tertiary);
+            margin-bottom: 1rem;
+        }
+        
+        .screenshots {
+            background-color: var(--secondary);
+        }
+        
+        .screenshots-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .screenshot {
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .screenshot img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .screenshot-info {
+            padding: 1.5rem;
+        }
+        
+        .screenshot-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team {
+            background-color: var(--quaternary);
+            color: var(--primary);
+        }
+        
+        .team-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .team-member {
+            background-color: var(--secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .team-member img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .team-info {
+            padding: 1.5rem;
+        }
+        
+        .team-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-info p {
+            color: #777;
+            font-style: italic;
+        }
+        
+        .mission-vision {
+            background-color: #f8f8f8;
+        }
+        
+        .mission-vision-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+        
+        .mission, .vision {
+            background-color: var(--secondary);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .mission h3, .vision h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--tertiary);
+        }
+        
+        .contact {
+            background-color: var(--secondary);
+        }
+        
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .contact-form {
+            background-color: #f8f8f8;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+        }
+        
+        footer {
+            background-color: var(--primary);
+            color: var(--secondary);
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .social-links {
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: var(--secondary);
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+        
+        .footer-nav {
+            margin: 1rem 0;
+        }
+        
+        .footer-nav a {
+            color: var(--secondary);
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        
+        .footer-nav a:hover {
+            color: var(--tertiary);
+        }
+        
+        @media (max-width: 768px) {
+            .about-content, .mission-vision-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+            }
+            
+            .nav-links li {
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">Solve<span>Process</span></div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#sobre-sistema">Sobre el Sistema</a></li>
+                <li><a href="#funcionalidades">Funcionalidades</a></li>
+                <li><a href="#pantallas">Pantallas</a></li>
+                <li><a href="#equipo">Equipo</a></li>
+                <li><a href="#mision-vision">Misión y Visión</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="inicio">
+            <div class="hero-content">
+                <h1>Sistema de Gestión de Notas</h1>
+                <h2>La solución digital que moderniza el proceso de calificaciones para el Gimnasio Fidel Cano</h2>
+                <a href="#contacto" class="btn">Solicitar Demo</a>
+            </div>
+        </section>
+
+        <section class="about" id="sobre-sistema">
+            <h2 class="section-title">Sobre el Sistema</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Transformamos la gestión de calificaciones</h3>
+                    <p>Nuestro sistema de gestión de notas está diseñado específicamente para optimizar el proceso de calificación en el Gimnasio Fidel Cano, transformando un proceso manual y propenso a errores en uno digital, eficiente y transparente.</p>
+                    <p>La plataforma permite a los profesores registrar, calcular y comunicar calificaciones de manera ágil, mientras que los estudiantes y padres pueden consultar el progreso académico en tiempo real desde cualquier dispositivo.</p>
+                    <p>Esta solución forma parte de nuestra iniciativa para digitalizar los procesos administrativos del colegio, mejorando la experiencia educativa para todos los miembros de la comunidad escolar.</p>
+                </div>
+                <div class="about-image">
+                    <img src="/api/placeholder/500/350" alt="Sistema de Gestión de Notas">
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="funcionalidades">
+            <h2 class="section-title">Funcionalidades Principales</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Registro de Calificaciones</h3>
+                    <p>Interfaz intuitiva para que los profesores ingresen calificaciones por actividad, examen o periodo académico, con validación automática para evitar errores.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Informes y Estadísticas</h3>
+                    <p>Generación de reportes detallados sobre el rendimiento individual y grupal, con gráficos que facilitan la interpretación de datos académicos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Consulta de Notas</h3>
+                    <p>Portal personalizado para que estudiantes y padres accedan a las calificaciones, con opciones de filtrado por materia o periodo académico.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧮</div>
+                    <h3>Cálculo Automático</h3>
+                    <p>Sistema de cálculo que pondera automáticamente las calificaciones según criterios establecidos por la institución, reduciendo errores manuales.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Notificaciones</h3>
+                    <p>Sistema de alertas para informar sobre nuevas calificaciones, promedios bajos o cambios relevantes en el rendimiento académico.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Acceso Multiplataforma</h3>
+                    <p>Diseño responsive que permite acceder al sistema desde computadoras, tablets y dispositivos móviles con la misma experiencia de usuario.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="screenshots" id="pantallas">
+            <h2 class="section-title">Pantallas del Sistema</h2>
+            <div class="screenshots-grid">
+                <div class="screenshot">
+                    <img src="/api/placeholder/500/300" alt="Pantalla de inicio de sesión">
+                    <div class="screenshot-info">
+                        <h3>Panel de Control</h3>
+                        <p>Vista principal con resumen de calificaciones, asignaturas y accesos rápidos a las principales funciones del sistema.</p>
+                    </div>
+                </div>
+                <div class="screenshot">
+                    <img src="/api/placeholder/500/300" alt="Registro de calificaciones">
+                    <div class="screenshot-info">
+                        <h3>Registro de Calificaciones</h3>
+                        <p>Interfaz para que los profesores ingresen notas por grupo y asignatura, con opciones para comentarios y retroalimentación.</p>
+                    </div>
+                </div>
+                <div class="screenshot">
+                    <img src="/api/placeholder/500/300" alt="Consulta de notas">
+                    <div class="screenshot-info">
+                        <h3>Consulta de Notas</h3>
+                        <p>Portal para estudiantes donde pueden ver sus calificaciones, historial académico y progreso en cada asignatura.</p>
+                    </div>
+                </div>
+                <div class="screenshot">
+                    <img src="/api/placeholder/500/300" alt="Informes y estadísticas">
+                    <div class="screenshot-info">
+                        <h3>Informes y Estadísticas</h3>
+                        <p>Generación de reportes con gráficos dinámicos que facilitan el análisis del rendimiento académico individual y grupal.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="team" id="equipo">
+            <h2 class="section-title">Nuestro Equipo</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="/api/placeholder/300/300" alt="Danna Isabela Orozco">
+                    <div class="team-info">
+                        <h3>Danna Isabela Orozco Restrepo</h3>
+                        <p>Desarrolladora Frontend</p>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img src="/api/placeholder/300/300" alt="Natalia Ruiz">
+                    <div class="team-info">
+                        <h3>Natalia Ruiz Benitez</h3>
+                        <p>Desarrolladora Backend</p>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img src="/api/placeholder/300/300" alt="Sebastian Vargas">
+                    <div class="team-info">
+                        <h3>Sebastian Vargas Martinez</h3>
+                        <p>Diseñador UX/UI</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mission-vision" id="mision-vision">
+            <h2 class="section-title">Misión y Visión</h2>
+            <div class="mission-vision-container">
+                <div class="mission">
+                    <h3>Nuestra Misión</h3>
+                    <p>Generar una administración más digitalizada y asequible para todos los miembros de la institución, optimizando procesos en el área administrativa.</p>
+                    <p>Específicamente con nuestro sistema de gestión de notas, buscamos simplificar los procesos de calificación, reducir errores y mejorar la transparencia en la evaluación académica.</p>
+                </div>
+                <div class="vision">
+                    <h3>Nuestra Visión</h3>
+                    <p>En el 2029, nuestro objetivo es llegar a optimizar todos los procesos administrativos del Gimnasio Fidel Cano para que sean más accesibles para todos, adaptándose a los diferentes cambios que depare el futuro.</p>
+                    <p>Aspiramos a que nuestro sistema de gestión de notas sea un referente en innovación educativa, contribuyendo a una cultura de evaluación más eficiente y centrada en el aprendizaje.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact" id="contacto">
+            <h2 class="section-title">Contáctanos</h2>
+            <div class="contact-container">
+                <div class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Nombre</label>
+                        <input type="text" id="name" name="name" placeholder="Tu nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" placeholder="Tu correo electrónico">
+                    </div>
+                    <div class="form-group">
+                        <label for="institution">Institución</label>
+                        <input type="text" id="institution" name="institution" placeholder="Nombre de tu institución">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Asunto</label>
+                        <input type="text" id="subject" name="subject" placeholder="Asunto del mensaje">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Mensaje</label>
+                        <textarea id="message" name="message" placeholder="Tu mensaje"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Solicitar Información</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">Solve<span>Process</span></div>
+            <div class="social-links">
+                <a href="#">📱</a>
+                <a href="#">📘</a>
+                <a href="#">📸</a>
+                <a href="#">📞</a>
+            </div>
+            <div class="footer-nav">
+                <a href="#inicio">Inicio</a>
+                <a href="#sobre-sistema">Sobre el Sistema</a>
+                <a href="#funcionalidades">Funcionalidades</a>
+                <a href="#pantallas">Pantallas</a>
+                <a href="#equipo">Equipo</a>
+                <a href="#contacto">Contacto</a>
+            </div>
+            <p>&copy; 2025 SolveProcess. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
